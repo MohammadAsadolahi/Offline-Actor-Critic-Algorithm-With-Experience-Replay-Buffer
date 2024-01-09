@@ -8,11 +8,12 @@ This codde is a single Actor-critic Agent deployed along with a experience repla
 Mohammad.E.Asadolahi@gmail.com
   
   
-**this code is not implemented with Pytorch! for TensorFlow version look up my Github repositories**
+**this code is implemented with Pytorch! i will add TensorFlow version soon!!**
 ### to do:  
-* write the ReplayBuffer code   [***done***]
+* deploy the ReplayBuffer code   [***done***]
+* add imports file   [***done***]
 * deploy Actor and Critic neural networks
 * deploy the Agnet in pytorch 
 * deploy the Environmetn class (using OpenAI Gym library) 
 * deploy the main learning loop
-* Deploy the test loop
+* deploy the test loop
