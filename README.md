@@ -12,8 +12,10 @@ Mohammad.E.Asadolahi@gmail.com
 ### to do:  
 * deploy the ReplayBuffer code   [***done***]
 * add imports file   [***done***]
-* deploy Actor and Critic neural networks
+* deploy Value neural network [***done***]
+* deploy Policy neural network
 * deploy the Agnet in pytorch 
 * deploy the Environmetn class (using OpenAI Gym library) 
 * deploy the main learning loop
 * deploy the test loop
+* run a standard RL evaluation 
