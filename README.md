@@ -6,9 +6,16 @@ This codde is a single Actor-critic Agent deployed along with a experience repla
 
 [feel free to ask any question in Issues or just email me]  
 Mohammad.E.Asadolahi@gmail.com
+
+### How to install requirements
+The `requirements.txt` file should list all Python libraries that the project depend on, and they will be installed using:
+```
+pip install -r Requirements.txt
+```
+I keep updating the project to be compatible with new versions of libraries. If there was any problem with the diffrent versions of the required libraries let me know in the "Issues" section, so i can resolve them.  
   
   
-**this code is implemented with Pytorch! i will add TensorFlow version soon!!**
+**this code is implemented with Pytorch! i will add TensorFlow version soon and link to it here!!**  
 ### to do:  
 * deploy the ReplayBuffer code   [***done***]
 * add imports file   [***done***]
