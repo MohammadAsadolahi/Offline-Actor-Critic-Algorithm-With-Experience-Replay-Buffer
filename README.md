@@ -13,9 +13,9 @@ Mohammad.E.Asadolahi@gmail.com
 * deploy the ReplayBuffer code   [***done***]
 * add imports file   [***done***]
 * deploy Value neural network [***done***]
-* deploy Policy neural network
-* deploy the Agnet in pytorch 
-* deploy the Environmetn class (using OpenAI Gym library) 
+* deploy Policy neural network [***done***]
+* deploy the Agnet in pytorch [***partially done (Agent class methods should be ipmplemented)***]
+* deploy the Environmetn class (using OpenAI Gym library to import an environment) 
 * deploy the main learning loop
 * deploy the test loop
 * run a standard RL evaluation 
