@@ -1,11 +1,14 @@
 # Offline-Actor-Critic-Algorithm-With-Experience-Replay-Buffer
 Combining experience replay buffer whith Actor-Critic algorithm to expedite learning procedure by offline learning
 This codde is a single Actor-critic Agent deployed along with a experience replay buffer which is comonly used in off-policy reinforcement algorithms  
+
+  The intial idea to not use replay buffer with actor-critic methods like was proposed by Phil Tabor at this Youtube video: https://www.youtube.com/watch?v=LPBC3SkXwAY   
+  he argues that its a bad idea i tried to make it a good one! ha ha
+  this first insight made me develop the TDS algorithm, a Stochastic Off-Policy Actor-Critic Algorithm for contiuous RL problems : https://github.com/MohammadAsadolahi/TDS-Twin-Delayed-Stochastic-Actor-Critic
+
+
 **this project can be applied for !any on-policy Actor-Critic algorithm! to expedite learning procedure**   
 **this project is a research project and owners have no responsibility of any loss for deploying this project in real environmentn**   
-
-[feel free to ask any question in Issues or just email me]  
-Mohammad.E.Asadolahi@gmail.com
 
 ### How to install requirements
 The `requirements.txt` file should list all Python libraries that the project depend on, and they will be installed using:
