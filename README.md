@@ -4,7 +4,7 @@ This codde is a single Actor-critic Agent deployed along with a experience repla
 
   The intial idea to not use replay buffer with actor-critic methods like was proposed by Phil Tabor at this Youtube video: https://www.youtube.com/watch?v=LPBC3SkXwAY   
   he argues that its a bad idea i tried to make it a good one! ha ha
-  this first insight made me develop the TDS algorithm, a Stochastic Off-Policy Actor-Critic Algorithm for contiuous RL problems : https://github.com/MohammadAsadolahi/TDS-Twin-Delayed-Stochastic-Actor-Critic
+  this first insight made me develop the TDS algorithm, a Stochastic Off-Policy Actor-Critic Algorithm for contiuous RL problems : https://github.com/elktrn/TDS-Twin-Delayed-Stochastic-Actor-Critic
 
 
 **this project can be applied for !any on-policy Actor-Critic algorithm! to expedite learning procedure**   
