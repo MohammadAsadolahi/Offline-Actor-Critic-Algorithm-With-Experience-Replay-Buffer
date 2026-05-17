@@ -4,14 +4,14 @@
 
 ### Bridging On-Policy Stability with Off-Policy Sample Efficiency
 
-[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-3776ab?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-ee4c2c?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org)
-[![OpenAI Gym](https://img.shields.io/badge/OpenAI%20Gym-0.26%2B-0081a5?style=for-the-badge&logo=openaigym&logoColor=white)](https://www.gymlibrary.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-3fb950?style=for-the-badge)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3776ab?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org)
+[![OpenAI Gym](https://img.shields.io/badge/OpenAI%20Gym-0081a5?style=for-the-badge&logo=openaigym&logoColor=white)](https://www.gymlibrary.dev/)
 
-*A research implementation exploring how experience replay — traditionally reserved for off-policy methods — can be integrated into Actor-Critic architectures to achieve superior sample efficiency without sacrificing convergence guarantees.*
+*An implementation exploring how experience replay — traditionally reserved for off-policy methods — can be integrated into Actor-Critic architectures to improve sample efficiency.*
 
-**Author:** AG · Chief AI Officer @ Google
+**Author:** [Mohammad Asadolahi](https://github.com/MohammadAsadolahi) · Senior Agentic AI Engineer
+**Focus:** Agentic AI Architectures In The Wild
 
 ---
 
@@ -23,13 +23,11 @@ The conventional wisdom in reinforcement learning draws a hard boundary: **exper
 
 **This project challenges that assumption.**
 
-By carefully coupling a high-capacity replay buffer ($10^6$ transitions) with a dual-network Actor-Critic agent and an adaptive batch scheduling strategy, we demonstrate that:
+By coupling a high-capacity replay buffer ($10^6$ transitions) with a dual-network Actor-Critic agent and an adaptive batch scheduling strategy, this project explores whether:
 
-1. **On-policy methods *can* benefit from experience replay** when the critic is trained with TD(0) targets from stored transitions.
-2. **Sample efficiency improves by ~2.8×** compared to vanilla A2C, and convergence speed rivals PPO.
-3. **The approach generalizes** to any on-policy Actor-Critic variant with minimal architectural changes.
-
-> *"The question is not whether replay buffers belong in on-policy RL — it is how to make the value function learn fast enough to stabilize the policy gradient under distributional shift."*
+1. **On-policy methods can benefit from experience replay** when the critic is trained with TD(0) targets from stored transitions.
+2. **Sample efficiency can be improved** compared to vanilla A2C through replay-augmented training.
+3. **The simplicity of A2C can be retained** (no clipping, no importance weights) while borrowing sample efficiency techniques from off-policy methods.
 
 ---
 
@@ -50,7 +48,7 @@ The system comprises four tightly integrated components operating in a dual-loop
 
 ### Dual-Loop Learning
 
-The key architectural innovation is the **dual-loop update** strategy:
+The key architectural idea is the **dual-loop update** strategy:
 
 **Online Loop** — On every environment step, the critic receives an immediate TD(0) update:
 
@@ -62,51 +60,7 @@ $$\delta = r + \gamma (1-d) \cdot V(s') - V(s) \quad \text{(TD Error)}$$
 
 $$\mathcal{L}_V^{\text{offline}} = \mathbb{E}\left[ \delta^2 \right] \qquad \mathcal{L}_\pi = -\mathbb{E}\left[ \log \pi(a|s) \cdot \delta \right]$$
 
-This dual-loop design ensures the critic converges rapidly (reducing variance in the policy gradient), while the actor benefits from decorrelated, high-diversity batches that break the temporal autocorrelation inherent in sequential trajectories.
-
----
-
-## Results
-
-### Training Performance
-
-<div align="center">
-<img src="assets/training_curve.png" alt="Training Curve" width="100%"/>
-</div>
-
-The replay-augmented agent **solves LunarLander-v2** (avg. reward ≥ 200 over 100 episodes) in approximately **1,100 episodes** — a **2× speedup** over the vanilla Actor-Critic baseline, which struggles to cross the threshold within 3,000 episodes.
-
-### Benchmarking
-
-<div align="center">
-<img src="assets/benchmark.png" alt="Benchmark Comparison" width="100%"/>
-</div>
-
-| Metric | Vanilla A2C | **A2C + Replay (Ours)** | PPO (Reference) |
-|--------|:-----------:|:-----------------------:|:---------------:|
-| Episodes to Solve | 2,200 | **1,100** | 1,400 |
-| Final Avg. Reward | 135 | **218** | 195 |
-| Sample Efficiency | 0.015 | **0.042** | 0.031 |
-
-Our method achieves the **highest final performance** and **best sample efficiency** among all compared methods, while requiring fewer episodes to converge than PPO — a notably more complex algorithm with clipped surrogate objectives and multiple optimization epochs.
-
-### Hyperparameter Sensitivity
-
-<div align="center">
-<img src="assets/ablation.png" alt="Ablation Study" width="70%"/>
-</div>
-
-The ablation study reveals that the optimal configuration lies at **batch size 128** with **learning rate 5e-3**. The method is robust across a wide range of hyperparameters — 12 out of 16 configurations achieve reward > 100, and 6 exceed 170.
-
-### Replay Buffer Dynamics
-
-<div align="center">
-<img src="assets/buffer_dynamics.png" alt="Buffer Dynamics" width="100%"/>
-</div>
-
-The adaptive batch size schedule (`64 → 128 → 256`, doubling every 200 episodes) ensures that:
-- **Early training** uses small batches (high update frequency, fast initial learning)
-- **Late training** uses large batches (lower variance gradients, stable convergence)
+This dual-loop design aims to help the critic converge rapidly (reducing variance in the policy gradient), while the actor benefits from decorrelated, high-diversity batches that break the temporal autocorrelation inherent in sequential trajectories.
 
 ---
 
@@ -120,7 +74,7 @@ The adaptive batch size schedule (`64 → 128 → 256`, doubling every 200 episo
 ├── Imports.py            # Centralized dependency imports
 ├── pg-replay.ipynb       # End-to-end training notebook (LunarLander-v2)
 ├── Requirements.txt      # Python dependencies
-├── generate_plots.py     # Publication-quality figure generation
+├── generate_plots.py     # Illustrative plot generation
 └── assets/               # Rendered plots and diagrams
 ```
 
@@ -131,7 +85,7 @@ The adaptive batch size schedule (`64 → 128 → 256`, doubling every 200 episo
 ### Installation
 
 ```bash
-git clone https://github.com/<your-username>/Offline-Actor-Critic-Algorithm-With-Experience-Replay-Buffer.git
+git clone https://github.com/MohammadAsadolahi/Offline-Actor-Critic-Algorithm-With-Experience-Replay-Buffer.git
 cd Offline-Actor-Critic-Algorithm-With-Experience-Replay-Buffer
 pip install -r Requirements.txt
 ```
@@ -168,15 +122,15 @@ for episode in range(3000):
 
 ## Theoretical Foundation
 
-### Why This Works
+### Why This Could Work
 
 The central challenge of using replay buffers with policy gradients is the **distribution mismatch**: samples in the buffer were collected under old policies $\pi_{\text{old}}$, but the policy gradient theorem requires on-policy expectations under $\pi_\theta$.
 
-Our approach sidesteps this by:
+This approach attempts to sidestep this by:
 
 1. **Decoupling the critic update from the policy distribution.** The TD(0) target $r + \gamma V(s')$ is a valid bootstrap target regardless of the behavior policy — the value function is a property of the *state*, not the action that reached it.
 
-2. **Using the advantage as a scalar weight.** The policy gradient $\nabla_\theta \mathcal{L}_\pi = -\nabla_\theta \log \pi(a|s) \cdot \delta$ uses the TD error as a *weighting signal*. Even under distributional shift, a well-trained critic produces meaningful advantage estimates that guide the actor toward high-value regions.
+2. **Using the advantage as a scalar weight.** The policy gradient $\nabla_\theta \mathcal{L}_\pi = -\nabla_\theta \log \pi(a|s) \cdot \delta$ uses the TD error as a *weighting signal*. Even under distributional shift, a well-trained critic can produce meaningful advantage estimates that guide the actor toward high-value regions.
 
 3. **Adaptive batch scheduling.** Small early batches allow rapid exploration; large late batches reduce gradient variance as the policy approaches optimality.
 
@@ -190,7 +144,7 @@ Our approach sidesteps this by:
 | SAC | Off | ✓ | ✗ | ✗ |
 | **Ours** | **Hybrid** | **✓** | **✗** | **✗** |
 
-Our method occupies a unique position: it retains the simplicity of A2C (no clipping, no importance weights, no entropy regularization) while borrowing the sample efficiency of off-policy methods through replay.
+This method occupies a hybrid position: it retains the simplicity of A2C (no clipping, no importance weights, no entropy regularization) while borrowing the sample efficiency mechanism of off-policy methods through replay.
 
 ---
 
@@ -203,10 +157,9 @@ Our method occupies a unique position: it retains the simplicity of A2C (no clip
 - [x] Full training pipeline (LunarLander-v2)
 - [ ] Prioritized Experience Replay (PER) variant
 - [ ] Continuous action space support (Gaussian policy)
-- [ ] TensorFlow 2.x port
 - [ ] Multi-environment benchmarks (CartPole, BipedalWalker, MountainCar)
 - [ ] Importance sampling correction for theoretical soundness
-- [ ] Wandb/TensorBoard integration for experiment tracking
+- [ ] Experiment tracking integration
 
 ---
 
@@ -215,11 +168,11 @@ Our method occupies a unique position: it retains the simplicity of A2C (no clip
 If you use this work in your research, please cite:
 
 ```bibtex
-@software{ag2024offlineac,
+@software{asadolahi2024offlineac,
   title   = {Offline Actor-Critic with Experience Replay Buffer},
-  author  = {AG},
+  author  = {Mohammad Asadolahi},
   year    = {2024},
-  url     = {https://github.com/<your-username>/Offline-Actor-Critic-Algorithm-With-Experience-Replay-Buffer}
+  url     = {https://github.com/MohammadAsadolahi/Offline-Actor-Critic-Algorithm-With-Experience-Replay-Buffer}
 }
 ```
 
@@ -227,8 +180,8 @@ If you use this work in your research, please cite:
 
 <div align="center">
 
-**Built with PyTorch** · **Tested on OpenAI Gym** · **Research in Progress**
-
-*This is an independent research project. The authors assume no liability for deployment in production environments.*
+**Built with PyTorch** · **Tested on OpenAI Gym**
 
 </div>
+
+this readme is AI assisted generated, so check for mistakes
